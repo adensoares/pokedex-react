@@ -2,7 +2,7 @@ import { Box, Heading, Image } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import pokeballSVG from '../../assets/images/pokeball.svg';
 
-const Header = () => {
+function Header() {
   return (
     <Box bg="red.500" w="100%" p={4} color="white" display="flex" alignItems="center" justifyContent="left" h="10vh">
       <Link to="/">

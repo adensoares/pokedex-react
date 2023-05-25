@@ -7,7 +7,7 @@ interface CardProps {
   image: string;
 }
 
-const Card: React.FC<CardProps> = ({ number, name, image }) => {
+function Card ({ number, name, image }: CardProps) {
   return (
     <Box
       borderWidth="1px"
