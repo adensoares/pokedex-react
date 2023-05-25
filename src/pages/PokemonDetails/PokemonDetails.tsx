@@ -15,6 +15,8 @@ import {
   IconButton,
   Link,
   Badge,
+  Grid,
+  useBreakpointValue,
 } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import Pokeball from '../../components/Pokeball/Pokeball';
@@ -90,119 +92,130 @@ function PokemonDetails() {
   }
 
   return (
-    <Container maxW="100%">
+    <Container maxW="container.xl" py={8}>
       {loading ? (
-        <Flex justifyContent="center" alignItems="center" h="80vh">
+        <Flex justifyContent="center" alignItems="center" h="70vh">
           <CircularProgress isIndeterminate color="red.500" />
         </Flex>
       ) : error ? (
-        <Flex justifyContent="center" alignItems="center" h="80vh">
+        <Flex justifyContent="center" alignItems="center" h="70vh">
           <Text color="red.500">Oops, something went wrong while loading Pokémon details.</Text>
         </Flex>
       ) : (
-        <Flex direction={{ base: 'column', md: 'row' }} justifyContent="center" alignItems="center" h="80vh">
-          <IconButton
-            mr={16}
-            aria-label="Previous"
-            icon={<ChevronLeftIcon />}
-            onClick={prevPokemon}
-            display={Number(id) <= 1 ? 'none' : 'inline-flex'}
-            size="lg"
-          />
-          <Box maxW={{ base: '80%', md: '20%' }}>
-            <Text fontSize="sm">
-              #{pokemonDetails?.number}
-            </Text>
-            <Heading fontWeight="bold" mt={2}>
-              {pokemonDetails?.name}
-            </Heading>
-            <Text mt={2}>
-              {pokemonDetails?.flavorText}
-            </Text>
-          </Box>
 
-          <Box maxW={{ base: '100%', md: '60%' }} px={24} position="relative">
-            <Pokeball
-              fill={pokemonDetails?.types[0] ? getColorByType(pokemonDetails?.types[0].toLowerCase()) : ''}
-              style={{ position: 'absolute', left: '0', width: '50%', opacity: '0.3' }}
-            />
-            <Image src={pokemonDetails?.image} alt={pokemonDetails?.name} zIndex="2" position="relative" />
-          </Box>
+        <Box>
+          <Flex justify={{ base: Number(id) <= 1 ? 'right' : 'space-between', md: Number(id) <= 1 ? 'right' : 'space-around' }}>
+              <IconButton
+                aria-label="Previous"
+                icon={<ChevronLeftIcon />}
+                onClick={prevPokemon}
+                display={Number(id) <= 1 ? 'none' : 'inline-flex'}
+                size="lg" />
+                
+              <IconButton
+                aria-label="Next"
+                icon={<ChevronRightIcon />}
+                onClick={nextPokemon}
+                size="lg" />
+            </Flex>
+            
+            <Flex direction={{ base: 'column', md: 'row' }} alignItems="center" justify="space-between" h={{ base: "auto", md: "65vh" }}>
+                
+                <Box flex={{ base: "1", md: "0 0 30%" }} textAlign={{ base: "center", md: "left" }}>
+                  <Text fontSize="sm">
+                    #{pokemonDetails?.number}
+                  </Text>
+                  <Heading fontWeight="bold" mt={2}>
+                    {pokemonDetails?.name}
+                  </Heading>
+                  <Text mt={2}>
+                    {pokemonDetails?.flavorText}
+                  </Text>
+                </Box>
 
-          <Box maxW="10%" minW="10%">
-            <Text>
-              <strong>TYPE</strong>
-            </Text>
-            <Wrap>
-              {pokemonDetails?.types.map((type) => (
-                <Badge variant="solid" rounded="xl" px={4} py={1} bg={getColorByType(type.toLowerCase())} key={type}>
-                  {type}
-                </Badge>
-              ))}
-            </Wrap>
+                <Box flex={{ base: "1", md: "0 0 30%" }} textAlign={{ base: "center", md: "left" }}>
+                  {/* <Pokeball
+      fill={pokemonDetails?.types[0] ? getColorByType(pokemonDetails?.types[0].toLowerCase()) : ''}
+      style={{ position: 'absolute', left: isLargerThan768 ? '40%' : '40%', transform: isLargerThan768 ? 'none' : 'translateX(-50%)', width: '250px', opacity: '0.3' }}
+    /> */}
+                  <Image src={pokemonDetails?.image} alt={pokemonDetails?.name} zIndex="2" position="relative" />
+                </Box>
 
-            <Text mt={4}>
-              <strong>WEIGH</strong>
-            </Text>
-            <Text>
-              {pokemonDetails?.weight} kg
-            </Text>
+                <Box flex={{ base: "1", md: "0 0 30%" }} textAlign={{ base: "center", md: "left" }}>
 
-            <Text mt={4}>
-              <strong>HEIGHT</strong>
-            </Text>
-            <Text>
-              {pokemonDetails?.height} m
-            </Text>
+                  {/* Types */}
+                  <Wrap justify={{ base: "center", md: "flex-start" }}>
+                    {pokemonDetails?.types.map((type) => (
+                      <Badge variant="solid" rounded="xl" px={4} py={1} bg={getColorByType(type.toLowerCase())} key={type}>
+                        {type}
+                      </Badge>
+                    ))}
+                  </Wrap>
 
-            <Text mt={4}>
-              <strong>MOVES</strong>
-            </Text>
-            <Text>
-              {pokemonDetails?.moves.join(', ')}
-            </Text>
+                  {/* Weight and Height */}
+                  <Flex justify={{ base: "center", md: "start" }} mt={4}>
+                    <Box mr={4}>
+                      <Text>
+                        <strong>WEIGHT</strong>
+                      </Text>
+                      <Text>
+                        {pokemonDetails?.weight} kg
+                      </Text>
+                    </Box>
 
-            <Box>
-              <Text mt={2}>
-                <strong>HP:</strong> {pokemonDetails?.stats.hp}
-              </Text>
-              <Progress rounded="lg" colorScheme="red" size="sm" value={pokemonDetails?.stats.hp} max={255} />
+                    <Box>
+                      <Text>
+                        <strong>HEIGHT</strong>
+                      </Text>
+                      <Text>
+                        {pokemonDetails?.height} m
+                      </Text>
+                    </Box>
+                  </Flex>
 
-              <Text mt={2}>
-                <strong>ATK:</strong> {pokemonDetails?.stats.attack}
-              </Text>
-              <Progress rounded="lg" colorScheme="orange" size="sm" value={pokemonDetails?.stats.attack} max={255} />
+                  {/* Moves */}
+                  <Text mt={4}>
+                    <strong>MOVES</strong>
+                  </Text>
+                  <Text>
+                    {pokemonDetails?.moves.join(', ')}
+                  </Text>
 
-              <Text mt={2}>
-                <strong>DEF:</strong> {pokemonDetails?.stats.defense}
-              </Text>
-              <Progress rounded="lg" colorScheme="yellow" size="sm" value={pokemonDetails?.stats.defense} max={255} />
+                  {/* Stats */}
+                  <Box>
+                    <Text mt={2}>
+                      <strong>HP:</strong> {pokemonDetails?.stats.hp}
+                    </Text>
+                    <Progress rounded="lg" colorScheme="red" size="sm" value={pokemonDetails?.stats.hp} max={255} />
 
-              <Text mt={2}>
-                <strong>SATK:</strong> {pokemonDetails?.stats.specialAttack}
-              </Text>
-              <Progress rounded="lg" colorScheme="blue" size="sm" value={pokemonDetails?.stats.specialAttack} max={255} />
+                    <Text mt={2}>
+                      <strong>ATK:</strong> {pokemonDetails?.stats.attack}
+                    </Text>
+                    <Progress rounded="lg" colorScheme="orange" size="sm" value={pokemonDetails?.stats.attack} max={255} />
 
-              <Text mt={2}>
-                <strong>SDEF:</strong> {pokemonDetails?.stats.specialDefense}
-              </Text>
-              <Progress rounded="lg" colorScheme="green" size="sm" value={pokemonDetails?.stats.specialDefense} max={255} />
+                    <Text mt={2}>
+                      <strong>DEF:</strong> {pokemonDetails?.stats.defense}
+                    </Text>
+                    <Progress rounded="lg" colorScheme="yellow" size="sm" value={pokemonDetails?.stats.defense} max={255} />
 
-              <Text mt={2}>
-                <strong>SPD:</strong> {pokemonDetails?.stats.speed}
-              </Text>
-              <Progress rounded="lg" colorScheme="pink" size="sm" value={pokemonDetails?.stats.speed} max={255} />
+                    <Text mt={2}>
+                      <strong>SATK:</strong> {pokemonDetails?.stats.specialAttack}
+                    </Text>
+                    <Progress rounded="lg" colorScheme="blue" size="sm" value={pokemonDetails?.stats.specialAttack} max={255} />
+
+                    <Text mt={2}>
+                      <strong>SDEF:</strong> {pokemonDetails?.stats.specialDefense}
+                    </Text>
+                    <Progress rounded="lg" colorScheme="green" size="sm" value={pokemonDetails?.stats.specialDefense} max={255} />
+
+                    <Text mt={2}>
+                      <strong>SPD:</strong> {pokemonDetails?.stats.speed}
+                    </Text>
+                    <Progress rounded="lg" colorScheme="pink" size="sm" value={pokemonDetails?.stats.speed} max={255} />
+                  </Box>
+                </Box>
+              </Flex>
             </Box>
-          </Box>
-
-          <IconButton
-            ml={16}
-            aria-label="Next"
-            icon={<ChevronRightIcon />}
-            onClick={nextPokemon}
-            size="lg"
-          />
-        </Flex>
       )}
     </Container>
   );
