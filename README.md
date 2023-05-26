@@ -1,6 +1,8 @@
 # Pokédex - React
 
-Bem-vindo ao Pokédex App! Este é um aplicativo web que permite explorar informações sobre os Pokémon.
+Este é um projeto de Pokédex desenvolvido com React. Ele utiliza a API [PokéAPI](https://pokeapi.co/) para buscar os dados dos Pokémon.
+
+O aplicativo exibe uma lista de Pokémon que você pode percorrer, e ao clicar em um Pokémon, você pode ver detalhes adicionais sobre ele.
 
 ## Funcionalidades
 
