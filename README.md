@@ -17,8 +17,8 @@ Bem-vindo ao Pokédex App! Este é um aplicativo web que permite explorar inform
 
 ## Instalação
 
-1. Clone este repositório: `git clone https://github.com/seu-usuario/pokedex-app.git`
-2. Acesse o diretório do projeto: `cd pokedex-app`
+1. Clone este repositório: `git clone https://github.com/adensoares/pokedex-react.git`
+2. Acesse o diretório do projeto: `cd pokedex-react`
 3. Instale as dependências: `npm install`
 4. Execute o aplicativo: `npm start`
 

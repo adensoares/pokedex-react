@@ -1,4 +1,5 @@
 export function getColorByType(type: string) {
+    type = type.toLocaleLowerCase();
     switch (type) {
       case 'normal':
         return '#A8A77A';

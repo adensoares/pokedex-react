@@ -20,7 +20,7 @@ import {
 } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import Pokeball from '../../components/Pokeball/Pokeball';
-import { fetchPokemonDetails, fetchPokemonFlavorText } from '../../api';
+import { getPokemonDetails, getPokemonFlavorText } from '../../api';
 import { getColorByType } from '../../utils';
 
 interface PokemonDetails {
@@ -52,11 +52,8 @@ function PokemonDetails() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setLoading(true);
-        setError(false);
-
-        const detailsPromise = fetchPokemonDetails(id ?? '');
-        const flavorTextPromise = fetchPokemonFlavorText(id ?? '');
+        const detailsPromise = getPokemonDetails(id ?? '');
+        const flavorTextPromise = getPokemonFlavorText(id ?? '');
 
         const [details, flavorText] = await Promise.all([
           detailsPromise,
@@ -104,7 +101,7 @@ function PokemonDetails() {
       ) : (
 
         <Box>
-          <Flex justify={{ base: Number(id) <= 1 ? 'right' : 'space-between', md: Number(id) <= 1 ? 'right' : 'space-around' }}>
+          <Flex justify={{ base: Number(id) <= 1 ? 'right' : 'space-between', md: Number(id) <= 1 ? 'right' : 'space-between' }}>
               <IconButton
                 aria-label="Previous"
                 icon={<ChevronLeftIcon />}
@@ -146,7 +143,7 @@ function PokemonDetails() {
                   {/* Types */}
                   <Wrap justify={{ base: "center", md: "flex-start" }}>
                     {pokemonDetails?.types.map((type) => (
-                      <Badge variant="solid" rounded="xl" px={4} py={1} bg={getColorByType(type.toLowerCase())} key={type}>
+                      <Badge variant="solid" rounded="xl" px={4} py={1} bg={getColorByType(type)} key={type}>
                         {type}
                       </Badge>
                     ))}

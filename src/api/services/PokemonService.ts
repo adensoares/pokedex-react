@@ -16,7 +16,6 @@ interface PokemonDetails {
   weight: number;
   height: number;
   moves: string[];
-  flavorText: string;
   stats: {
     hp: number;
     attack: number;
@@ -36,9 +35,9 @@ interface PokemonFlavorText {
   }[];
 }
 
-export const fetchPokedex = async (): Promise<Pokemon[]> => {
+export const getPokedex = async (limit = 151): Promise<Pokemon[]> => {
   try {
-    const response = await api.get('pokemon?limit=151');
+    const response = await api.get(`/pokemon?limit=${limit}`);
     const { results } = response.data;
     const pokemonData: Pokemon[] = await Promise.all(
       results.map(async (pokemon: any) => {
@@ -61,13 +60,15 @@ export const fetchPokedex = async (): Promise<Pokemon[]> => {
   }
 };
 
-export const fetchPokemonDetails = async (id: string): Promise<PokemonDetails | null> => {
+export const getPokemonDetails = async (id: string): Promise<PokemonDetails | null> => {
   try {
-    const response = await api.get(`pokemon/${id}`);
+    const response = await api.get(`/pokemon/${id}`);
     const { name, types, weight, height, moves, sprites, stats } = response.data;
     const formattedMoves = moves
       .slice(0, 2)
-      .map((move: any) => capitalizeFirstLetter(move.move.name));
+      .map((move: any) => {
+        return move.move.name.split('-').map(capitalizeFirstLetter).join(' ');
+      });
     const formattedName = capitalizeFirstLetter(name);
     const formattedTypes = types.map((type: any) => capitalizeFirstLetter(type.type.name));
     const formattedHeight = height / 10;
@@ -89,7 +90,6 @@ export const fetchPokemonDetails = async (id: string): Promise<PokemonDetails | 
         specialDefense: stats[4].base_stat,
         speed: stats[5].base_stat,
       },
-      flavorText: '',
     };
   } catch (error) {
       console.error('Error fetching Pokémon details:', error);
@@ -97,9 +97,9 @@ export const fetchPokemonDetails = async (id: string): Promise<PokemonDetails | 
   }
 };
 
-export const fetchPokemonFlavorText = async (id: string): Promise<string> => {
+export const getPokemonFlavorText = async (id: string): Promise<string> => {
   try {
-    const response = await api.get(`pokemon-species/${id}`);
+    const response = await api.get(`/pokemon-species/${id}`);
     const PokemonFlavorText: PokemonFlavorText = response.data;
     const fireRedFlavorText = PokemonFlavorText.flavor_text_entries.find(
       (entry: any) => entry.version.name === 'firered'

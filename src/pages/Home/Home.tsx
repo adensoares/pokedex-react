@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Box, Container, Input, Text, Wrap, WrapItem, Heading, InputGroup, InputLeftElement, CircularProgress, Flex } from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
 import Card from '../../components/Card/Card';
-import { fetchPokedex } from '../../api/index';
+import { getPokedex } from '../../api';
 
 interface Pokemon {
   id: number;
@@ -20,9 +20,9 @@ function Home() {
   const [error, setError] = useState<null | string>(null);
 
   useEffect(() => {
-    const getPokedex = async () => {
+    const fetchPokedex = async () => {
       try {
-        const pokemonData = await fetchPokedex();
+        const pokemonData = await getPokedex();
         setPokedex(pokemonData);
         setFilteredPokemon(pokemonData);
       } catch (error) {
@@ -33,7 +33,7 @@ function Home() {
       }
     };
 
-    getPokedex();
+    fetchPokedex();
   }, []);
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {

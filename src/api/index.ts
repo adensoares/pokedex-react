@@ -1,5 +1,5 @@
 export { 
-    fetchPokedex, 
-    fetchPokemonDetails, 
-    fetchPokemonFlavorText     
+    getPokedex, 
+    getPokemonDetails, 
+    getPokemonFlavorText     
 } from './services/PokemonService'
