@@ -131,10 +131,10 @@ function PokemonDetails() {
                 </Box>
 
                 <Box flex={{ base: "1", md: "0 0 30%" }} textAlign={{ base: "center", md: "left" }}>
-                  {/* <Pokeball
-      fill={pokemonDetails?.types[0] ? getColorByType(pokemonDetails?.types[0].toLowerCase()) : ''}
-      style={{ position: 'absolute', left: isLargerThan768 ? '40%' : '40%', transform: isLargerThan768 ? 'none' : 'translateX(-50%)', width: '250px', opacity: '0.3' }}
-    /> */}
+                  <Pokeball
+                    fill={pokemonDetails?.types[0] ? getColorByType(pokemonDetails?.types[0].toLowerCase()) : ''}
+                    style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', width: '200px', opacity: '0.3' }}
+                  />
                   <Image src={pokemonDetails?.image} alt={pokemonDetails?.name} zIndex="2" position="relative" />
                 </Box>
 
