@@ -1,4 +1,4 @@
-# Pokédex App
+# Pokédex - React
 
 Bem-vindo ao Pokédex App! Este é um aplicativo web que permite explorar informações sobre os Pokémon.
 
