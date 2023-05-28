@@ -4,7 +4,7 @@ import Home from '../pages/Home/Home';
 import PokemonDetails from '../pages/PokemonDetails/PokemonDetails';
 import Header from '../components/Header/Header';
 
-const AppRoutes: React.FC = () => {
+function AppRoutes() {
   return (
     <BrowserRouter>
         <Header />
