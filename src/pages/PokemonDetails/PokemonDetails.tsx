@@ -45,21 +45,16 @@ interface PokemonDetails {
 function PokemonDetails() {
   const { id } = useParams<{ id: string }>();
   const [pokemonDetails, setPokemonDetails] = useState<PokemonDetails | null>(null);
+  const navigate = useNavigate();
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const detailsPromise = getPokemonDetails(id ?? '');
-        const flavorTextPromise = getPokemonFlavorText(id ?? '');
-
-        const [details, flavorText] = await Promise.all([
-          detailsPromise,
-          flavorTextPromise,
-        ]);
-
+        const details = await getPokemonDetails(id ?? '');
+        const flavorText = await getPokemonFlavorText(id ?? '');
+  
         if (details) {
           setPokemonDetails({ ...details, flavorText });
         } else {
@@ -72,9 +67,10 @@ function PokemonDetails() {
         setLoading(false);
       }
     };
-
+  
     fetchData();
   }, [id]);
+  
 
   function nextPokemon() {
     const nextId = Number(id) + 1;

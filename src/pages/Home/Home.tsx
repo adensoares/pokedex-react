@@ -39,24 +39,15 @@ function Home() {
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const searchTerm = event.target.value;
     setSearchTerm(searchTerm);
-
-    // Verificar se o valor digitado é um número
-    const searchTermIsNumber = /^\d+$/.test(searchTerm);
-
-    if (searchTermIsNumber) {
-      // Realizar pesquisa pelo número do Pokémon
-      const filteredByNumber = pokedex.filter((pokemon) =>
-        pokemon.number.includes(searchTerm)
-      );
-      setFilteredPokemon(filteredByNumber);
-    } else {
-      // Realizar pesquisa pelo nome do Pokémon
-      const filteredByName = pokedex.filter((pokemon) =>
-        pokemon.name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      setFilteredPokemon(filteredByName);
-    }
+  
+    const filtered = pokedex.filter((pokemon) =>
+      pokemon.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      pokemon.number.includes(searchTerm)
+    );
+  
+    setFilteredPokemon(filtered);
   };
+  
 
   return (
     <Container maxW="100%">
