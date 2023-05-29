@@ -55,7 +55,7 @@ function PokemonDetails() {
         const details = await getPokemonDetails(id ?? '');
         const flavorText = await getPokemonFlavorText(id ?? '');
   
-        if (details) {
+        if (details && flavorText) {
           setPokemonDetails({ ...details, flavorText });
         } else {
           setError(true);
